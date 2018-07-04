@@ -3,6 +3,7 @@
 namespace CodeShopping\Http\Controllers\Api;
 
 use  CodeShopping\Http\Controllers\Controller;
+use  CodeShopping\Http\Requests\CategoryRequest;
 use CodeShopping\Models\Category;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,8 @@ class CategoryController extends Controller
     }
 
    
-  
-    public function store(Request $request)
+   
+    public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all() + ['slug' => 'teste de slug chapado']);
         $category->refresh();
@@ -32,9 +33,12 @@ class CategoryController extends Controller
  
 
   
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        //
+        $category->fill($request->all());
+        $category->save();
+        
+        return $category; 
     }
 
   
